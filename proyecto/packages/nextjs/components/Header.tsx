@@ -124,7 +124,7 @@ export const Header = () => {
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <div className="flex relative w-12 h-12">
-            <Image alt="Scaffold Stylus logo" className="cursor-pointer" fill src="/logo.svg" />
+            <Image alt="Logo de BenevrIA" className="cursor-pointer" fill src="/logo.svg" />
           </div>
           <div className="flex flex-col">
             <span
@@ -138,7 +138,7 @@ export const Header = () => {
                 textTransform: "uppercase",
               }}
             >
-              SCAFFOLD STYLUS
+              BENEVRIA
             </span>
             <span
               style={{
@@ -149,7 +149,7 @@ export const Header = () => {
                 lineHeight: "20px",
               }}
             >
-              Arbitrum dev stack
+              IA colectiva · nadevrix
             </span>
           </div>
         </Link>

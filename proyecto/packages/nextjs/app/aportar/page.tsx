@@ -85,6 +85,9 @@ export default function Aportar() {
       <div className="mt-6">
         <label className="mb-2 block text-sm font-medium">Tu aporte</label>
         <textarea
+          // El tema del scaffold usa --radius-field: 9999rem, que deforma el
+          // textarea hasta volverlo una elipse. Se corrige en el elemento.
+          style={{ borderRadius: "0.75rem", padding: "0.9rem 1rem", lineHeight: 1.6 }}
           className="textarea textarea-bordered h-56 w-full font-mono text-sm"
           placeholder="Ej.: Para registrar una empresa unipersonal en Santa Cruz, el trámite en FUNDEMPRESA exige…"
           value={texto}
