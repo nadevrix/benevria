@@ -6,5 +6,5 @@ pub extern "C" fn main() {}
 
 #[cfg(feature = "export-abi")]
 fn main() {
-    ayni_core::print_from_args();
+    benevria_core::print_from_args();
 }

@@ -10,12 +10,12 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { useEstadoAyni } from "~~/lib/useAyni";
+import { useEstadoBenevria } from "~~/lib/useBenevria";
 
 type Mensaje = { role: "user" | "assistant"; content: string };
 
 export default function Chat() {
-  const estado = useEstadoAyni();
+  const estado = useEstadoBenevria();
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [entrada, setEntrada] = useState("");
   const [cargando, setCargando] = useState(false);

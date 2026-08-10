@@ -29,7 +29,7 @@ export default async function deployScript(deployOptions: DeployOptions) {
   console.log(`📁 Deployment directory: ${config.deploymentDir}`);
   console.log(`\n`);
 
-  // AyniCore: el nucleo del protocolo.
+  // BenevriaCore: el nucleo del protocolo.
   //
   // constructor(owner, keeper):
   //   owner  -> puede rotar el keeper si se compromete su clave. Nada mas.
@@ -38,7 +38,7 @@ export default async function deployScript(deployOptions: DeployOptions) {
   //             aportantes. Aqui apunta al deployer; en produccion es una wallet
   //             aparte y acotada.
   await deployStylusContract({
-    contract: "ayni-core",
+    contract: "benevria-core",
     constructorArgs: [config.deployerAddress!, config.deployerAddress!],
     ...deployOptions,
   });

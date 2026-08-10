@@ -18,13 +18,13 @@
 
 ### 0:25–0:50 · La solución en una imagen
 
-> "Ayni es una IA gratuita para todos, que la comunidad enseña.
+> "BenevrIA es una IA gratuita para todos, que la comunidad enseña.
 >
 > Aportas conocimiento, y un contrato verifica que sea genuinamente nuevo. Ese
 > conocimiento sube el nivel del modelo **que todos usan** —aporten o no—. Y cuando entra
 > dinero, se reparte entre quienes enseñaron, en proporción exacta a lo que aportaron.
 >
-> Ayni es el principio andino de reciprocidad: hoy por ti, mañana por mí."
+> BenevrIA: benevolencia más IA. Una inteligencia artificial que es un bien común."
 
 ### 0:50–1:30 · Por qué necesita blockchain (la pregunta del jurado, respondida antes)
 
@@ -88,7 +88,7 @@ similitud es lo que prueba que el contrato realmente está pensando, no solo gua
 
 ## Estructura del deck (8–10 slides)
 
-1. **Portada** — Ayni · IA colectiva sobre Arbitrum · ETH Lima 2026
+1. **Portada** — BenevrIA · IA colectiva sobre Arbitrum · ETH Lima 2026
 2. **Problema** — "Se entrenan con tu conocimiento y te lo cobran". Usuario nombrable:
    el profesional que sabe lo que la IA alucina
 3. **Solución** — el circuito en una imagen (aportar → verificar → subir nivel → repartir)

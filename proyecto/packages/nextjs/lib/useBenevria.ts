@@ -1,16 +1,16 @@
 "use client";
 
-/** Hooks compartidos para leer el estado de Ayni desde la cadena. */
+/** Hooks compartidos para leer el estado de BenevrIA desde la cadena. */
 
 import { useAccount, useReadContract, useReadContracts } from "wagmi";
-import { AYNI_ABI, AYNI_ADDRESS, MODELOS_POR_NIVEL, NOMBRES_NIVEL } from "./ayni";
+import { BENEVRIA_ABI, BENEVRIA_ADDRESS, MODELOS_POR_NIVEL, NOMBRES_NIVEL } from "./benevria";
 
-const base = { address: AYNI_ADDRESS, abi: AYNI_ABI } as const;
+const base = { address: BENEVRIA_ADDRESS, abi: BENEVRIA_ABI } as const;
 
-export const contratoDesplegado = AYNI_ADDRESS !== "0x0000000000000000000000000000000000000000";
+export const contratoDesplegado = BENEVRIA_ADDRESS !== "0x0000000000000000000000000000000000000000";
 
 /** Estado global del protocolo: nivel, puntaje, tesorería, época. */
-export function useEstadoAyni() {
+export function useEstadoBenevria() {
   const { data, isLoading, refetch } = useReadContracts({
     contracts: [
       { ...base, functionName: "nivel" },

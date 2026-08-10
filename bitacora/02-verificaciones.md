@@ -60,7 +60,7 @@ Avanzó por revisión pública durante 2025 y principios de 2026.
    Ecosistema Arbitrum"** — el briefing es explícito en eso.
 2. Adoptar un borrador a dos días del cierre es alcance que no sobra.
 
-Sí sirve como frase de pitch: la capa de verificadores de Ayni sigue ese patrón.
+Sí sirve como frase de pitch: la capa de verificadores de BenevrIA sigue ese patrón.
 
 ---
 

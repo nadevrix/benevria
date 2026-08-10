@@ -1,8 +1,9 @@
-# Ayni — una IA que la comunidad enseña y sostiene
+# BenevrIA — una IA que la comunidad enseña y sostiene
 
-> *Ayni* es el principio andino de reciprocidad: **hoy por ti, mañana por mí**.
+> **BenevrIA** = *benevolencia* + *IA*. Una inteligencia artificial concebida como bien
+> común: la comunidad la enseña, todos la usan, y quien enseña cobra.
 
-Ayni es una IA de **acceso gratuito para todos** cuyo **nivel de modelo lo decide un
+BenevrIA es una IA de **acceso gratuito para todos** cuyo **nivel de modelo lo decide un
 contrato inteligente**, no un operador. La comunidad le enseña conocimiento; el contrato
 verifica on-chain que cada aporte sea genuinamente nuevo, sube el nivel del modelo que
 todos usan, y reparte los ingresos entre quienes enseñaron.
@@ -159,7 +160,7 @@ Así filtran los datasets de verdad, y así está implementado:
 
 | Contrato | Red | Dirección | Arbiscan |
 |---|---|---|---|
-| `AyniCore` | Arbitrum Sepolia | *(pendiente de despliegue)* | — |
+| `BenevriaCore` | Arbitrum Sepolia | *(pendiente de despliegue)* | — |
 
 ---
 
@@ -183,7 +184,7 @@ cd proyecto
 yarn install
 
 # Compilar y probar el contrato
-cd packages/stylus/contracts/ayni-core
+cd packages/stylus/contracts/benevria-core
 cargo test                  # 28 tests
 cargo stylus check --endpoint https://sepolia-rollup.arbitrum.io/rpc
 
@@ -193,7 +194,7 @@ yarn deploy
 
 # Frontend
 cp packages/nextjs/.env.example packages/nextjs/.env.local
-# rellenar NEXT_PUBLIC_AYNI_ADDRESS con la dirección desplegada
+# rellenar NEXT_PUBLIC_BENEVRIA_ADDRESS con la dirección desplegada
 yarn start                  # http://localhost:3000
 ```
 
@@ -210,17 +211,17 @@ yarn start                  # http://localhost:3000
 
 | Variable | Obligatoria | Para qué |
 |---|---|---|
-| `NEXT_PUBLIC_AYNI_ADDRESS` | sí | Dirección del contrato desplegado |
+| `NEXT_PUBLIC_BENEVRIA_ADDRESS` | sí | Dirección del contrato desplegado |
 | `OPENROUTER_API_KEY` | no | Inferencia. Sin ella el chat explica el estado en vez de responder |
 | `EMBEDDINGS_API_KEY` | no | Embeddings semánticos. Sin ella se usa el respaldo léxico local |
-| `AYNI_MODO_PAGO` | no | `apikey` (por defecto) o `x402` |
+| `BENEVRIA_MODO_PAGO` | no | `apikey` (por defecto) o `x402` |
 
 ---
 
 ## Tests
 
 ```bash
-cd packages/stylus/contracts/ayni-core && cargo test
+cd packages/stylus/contracts/benevria-core && cargo test
 ```
 
 **28 tests**, divididos en dos grupos:

@@ -19,7 +19,7 @@
  * = exactamente dos palabras de storage.
  */
 
-import { DIMS, ESCALA } from "./ayni";
+import { DIMS, ESCALA } from "./benevria";
 
 /** Normaliza un vector a norma L2 = 1. */
 function normalizar(v: number[]): number[] {

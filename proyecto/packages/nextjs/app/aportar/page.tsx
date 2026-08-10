@@ -15,8 +15,8 @@
 
 import { useState } from "react";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { AYNI_ABI, AYNI_ADDRESS, explicarError } from "~~/lib/ayni";
-import { contratoDesplegado, useEstadoAyni } from "~~/lib/useAyni";
+import { BENEVRIA_ABI, BENEVRIA_ADDRESS, explicarError } from "~~/lib/benevria";
+import { contratoDesplegado, useEstadoBenevria } from "~~/lib/useBenevria";
 
 type Preparado = {
   lo: `0x${string}`;
@@ -29,7 +29,7 @@ type Preparado = {
 
 export default function Aportar() {
   const { isConnected } = useAccount();
-  const estado = useEstadoAyni();
+  const estado = useEstadoBenevria();
 
   const [texto, setTexto] = useState("");
   const [tema, setTema] = useState(0);
@@ -67,8 +67,8 @@ export default function Aportar() {
   function enviar() {
     if (!preparado) return;
     writeContract({
-      address: AYNI_ADDRESS,
-      abi: AYNI_ABI,
+      address: BENEVRIA_ADDRESS,
+      abi: BENEVRIA_ABI,
       functionName: "aportar",
       args: [preparado.lo, preparado.hi, preparado.hash, tema],
     });

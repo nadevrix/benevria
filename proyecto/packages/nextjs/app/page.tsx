@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Panel de Ayni — el estado del organismo colectivo.
+ * Panel de BenevrIA — el estado del organismo colectivo.
  *
  * Las dos cifras que mandan y que nadie puede falsear:
  *   · el nivel del modelo, que la comunidad se ganó enseñando
@@ -10,8 +10,8 @@
 
 import Link from "next/link";
 import { formatEther } from "viem";
-import { AYNI_ADDRESS, NOMBRES_NIVEL } from "~~/lib/ayni";
-import { contratoDesplegado, useEstadoAyni } from "~~/lib/useAyni";
+import { BENEVRIA_ADDRESS, NOMBRES_NIVEL } from "~~/lib/benevria";
+import { contratoDesplegado, useEstadoBenevria } from "~~/lib/useBenevria";
 
 function Metrica({
   titulo,
@@ -34,15 +34,15 @@ function Metrica({
 }
 
 export default function Panel() {
-  const e = useEstadoAyni();
+  const e = useEstadoBenevria();
 
   if (!contratoDesplegado) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-20 text-center">
-        <h1 className="text-3xl font-bold">Ayni</h1>
+        <h1 className="text-3xl font-bold">BenevrIA</h1>
         <p className="mt-3 opacity-70">
           El contrato todavía no está desplegado. Corre <code className="rounded bg-base-300 px-1">yarn deploy</code> y
-          define <code className="rounded bg-base-300 px-1">NEXT_PUBLIC_AYNI_ADDRESS</code>.
+          define <code className="rounded bg-base-300 px-1">NEXT_PUBLIC_BENEVRIA_ADDRESS</code>.
         </p>
       </div>
     );
@@ -51,10 +51,10 @@ export default function Panel() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold">Ayni</h1>
+        <h1 className="text-4xl font-bold">BenevrIA</h1>
         <p className="mt-2 max-w-2xl opacity-70">
-          Una IA que la comunidad enseña y sostiene. <strong>Hoy por ti, mañana por mí.</strong> El nivel del modelo lo
-          decide un contrato, no nosotros.
+          Una IA que la comunidad enseña y sostiene, concebida como <strong>bien común</strong>. El nivel del
+          modelo lo decide un contrato, no nosotros.
         </p>
       </header>
 
@@ -164,11 +164,11 @@ export default function Panel() {
             <dd>
               <a
                 className="link font-mono text-xs"
-                href={`https://sepolia.arbiscan.io/address/${AYNI_ADDRESS}`}
+                href={`https://sepolia.arbiscan.io/address/${BENEVRIA_ADDRESS}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                {AYNI_ADDRESS}
+                {BENEVRIA_ADDRESS}
               </a>
             </dd>
           </div>

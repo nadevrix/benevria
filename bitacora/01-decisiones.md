@@ -9,7 +9,7 @@
 
 | # | Decisión | Por qué |
 |---|---|---|
-| 1 | 🔄 **Nombre: Ayni** | Principio andino de reciprocidad (*hoy por ti, mañana por mí*). Es literalmente la mecánica del proyecto y ancla en la región sin sonar forzado. Cambiarlo cuesta 5 minutos |
+| 1 | **Nombre: BenevrIA** | *Benevolencia* + *IA*. Dice la tesis del proyecto —una IA que es bien común— y encaja con la marca **nadevrix**. Elegido por Rodrigo |
 | 2 | El nivel **sube por conocimiento, baja por tesorería** | Castigar a todos por el spam de un troll haría que la gente se fuera. "No hay con qué pagar" es honesto, automático y auditable |
 | 3 | Los puntos **se reinician cada época** | Mucho más simple de implementar y explicar que un saldo perpetuo con valor flotante. Evita además la pregunta regulatoria |
 | 4 | El pozo se reparte **30 % aportantes / 70 % inferencia** | La inferencia tiene que sostener el acceso gratuito de todos, que es la tesis del proyecto |
@@ -36,7 +36,7 @@
 
 | Fuera del MVP | Dónde va |
 |---|---|
-| x402 en producción (gateway propio) | Código preparado (`AYNI_MODO_PAGO`), falta conectar |
+| x402 en producción (gateway propio) | Código preparado (`BENEVRIA_MODO_PAGO`), falta conectar |
 | SDK propio en npm | La API compatible ya cubre el caso |
 | Disputas optimistas con stake | Roadmap — es la frase de pitch, no código |
 | Juez LLM sobre muestra | Roadmap |

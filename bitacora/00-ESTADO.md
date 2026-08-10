@@ -1,4 +1,4 @@
-# Estado del trabajo — Ayni
+# Estado del trabajo — BenevrIA
 
 > Bitácora viva. **Última actualización: 2026-08-10, madrugada.**
 
@@ -14,7 +14,7 @@
 ## ✅ Hecho
 
 ### Contrato
-- [x] `AyniCore` en Rust/Stylus: verificación de novedad on-chain por similitud coseno
+- [x] `BenevriaCore` en Rust/Stylus: verificación de novedad on-chain por similitud coseno
 - [x] Matemática vectorial en punto fijo (módulo `vector.rs` separado y testeado)
 - [x] Rechazo de duplicados exactos (hash) y parafraseados (coseno > 0,90)
 - [x] Nivel colectivo = mín(conocimiento acumulado, tesorería disponible)
@@ -73,7 +73,7 @@ Detalle en `04-para-rodrigo.md`.
 
 ## ⬜ Pendiente después del despliegue
 
-- [ ] Rellenar `NEXT_PUBLIC_AYNI_ADDRESS` y la tabla de contratos del README
+- [ ] Rellenar `NEXT_PUBLIC_BENEVRIA_ADDRESS` y la tabla de contratos del README
 - [ ] Desplegar el frontend en Render
 - [ ] Sembrar el corpus con 5–10 aportes reales para que el demo tenga sustancia
 - [ ] Grabar video pitch y video demo (guion listo en `05-guion-pitch.md`)
@@ -85,7 +85,7 @@ Detalle en `04-para-rodrigo.md`.
 
 ## El concepto en una pantalla
 
-**Ayni** — del principio andino de reciprocidad: *hoy por ti, mañana por mí*.
+**BenevrIA** — *benevolencia* + *IA*: una IA concebida como bien común.
 
 Una IA colectiva gratuita cuyo **nivel de modelo lo decide un contrato Stylus** que puntúa
 on-chain la calidad y novedad de lo que la comunidad le enseña, con una tesorería auditable

@@ -8573,9 +8573,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ayni@workspace:.":
+"benevria@workspace:.":
   version: 0.0.0-use.local
-  resolution: "ayni@workspace:."
+  resolution: "benevria@workspace:."
   languageName: unknown
   linkType: soft
 

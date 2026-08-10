@@ -1,11 +1,11 @@
 /**
- * Contrato AyniCore: dirección, ABI y constantes compartidas.
+ * Contrato BenevriaCore: dirección, ABI y constantes compartidas.
  *
  * La dirección se lee de una variable de entorno para que el despliegue no exija
  * recompilar el frontend. Se rellena al correr `yarn deploy`.
  */
 
-export const AYNI_ADDRESS = (process.env.NEXT_PUBLIC_AYNI_ADDRESS ??
+export const BENEVRIA_ADDRESS = (process.env.NEXT_PUBLIC_BENEVRIA_ADDRESS ??
   "0x0000000000000000000000000000000000000000") as `0x${string}`;
 
 export const CHAIN_ID = 421614; // Arbitrum Sepolia
@@ -50,7 +50,7 @@ export const MODELOS_POR_NIVEL: Record<number, { id: string; nombre: string; not
 export const NOMBRES_NIVEL = ["Base", "Bronce", "Plata", "Oro"];
 
 /** ABI del contrato, generado con `cargo stylus export-abi`. */
-export const AYNI_ABI = [
+export const BENEVRIA_ABI = [
   {
     type: "function",
     name: "aportar",

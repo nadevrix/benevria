@@ -5,7 +5,7 @@
  * El nivel vive on-chain, así que ni el operador ni esta ruta pueden servir un modelo
  * peor del que la comunidad se ganó, ni mentir sobre cuál está corriendo.
  *
- * Dos modos de pago, según `AYNI_MODO_PAGO`:
+ * Dos modos de pago, según `BENEVRIA_MODO_PAGO`:
  *
  * - `apikey` — API key tradicional. Funciona hoy. Implica que hay un humano con una
  *   tarjeta detrás: el circuito **no** es totalmente trustless en su último tramo.
@@ -19,7 +19,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPublicClient, http } from "viem";
 import { arbitrumSepolia } from "viem/chains";
-import { AYNI_ABI, AYNI_ADDRESS, MODELOS_POR_NIVEL } from "~~/lib/ayni";
+import { BENEVRIA_ABI, BENEVRIA_ADDRESS, MODELOS_POR_NIVEL } from "~~/lib/benevria";
 
 export const runtime = "nodejs";
 
@@ -29,13 +29,13 @@ const cliente = createPublicClient({ chain: arbitrumSepolia, transport: http(RPC
 
 /** Lee el nivel vigente del contrato. Si el contrato no responde, cae a nivel 0. */
 async function nivelVigente(): Promise<{ nivel: number; leidoDeCadena: boolean }> {
-  if (AYNI_ADDRESS === "0x0000000000000000000000000000000000000000") {
+  if (BENEVRIA_ADDRESS === "0x0000000000000000000000000000000000000000") {
     return { nivel: 0, leidoDeCadena: false };
   }
   try {
     const n = await cliente.readContract({
-      address: AYNI_ADDRESS,
-      abi: AYNI_ABI,
+      address: BENEVRIA_ADDRESS,
+      abi: BENEVRIA_ABI,
       functionName: "nivel",
     });
     return { nivel: Number(n), leidoDeCadena: true };
@@ -44,7 +44,7 @@ async function nivelVigente(): Promise<{ nivel: number; leidoDeCadena: boolean }
   }
 }
 
-const SISTEMA = `Eres Ayni, una IA colectiva que la comunidad entrena y sostiene.
+const SISTEMA = `Eres BenevrIA, una IA colectiva que la comunidad entrena y sostiene.
 Tu conocimiento viene de aportes verificados on-chain por personas que saben cosas que
 los modelos grandes suelen alucinar: trámites locales, jerga de oficio, procedimientos
 que nadie escribió nunca.
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
   if (!apiKey) {
     return NextResponse.json({
       respuesta:
-        `[Ayni no tiene proveedor de inferencia configurado todavía]\n\n` +
+        `[BenevrIA no tiene proveedor de inferencia configurado todavía]\n\n` +
         `El contrato dice que el nivel colectivo es ${nivel} → modelo "${modelo.nombre}".\n` +
         `Esa parte funciona: el nivel se leyó ${leidoDeCadena ? "de la cadena" : "por defecto (contrato sin desplegar)"}.\n\n` +
         `Para activar las respuestas, configura OPENROUTER_API_KEY en .env.local.`,
@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
       modelo: modelo.id,
       nombreModelo: modelo.nombre,
       leidoDeCadena,
-      modoPago: process.env.AYNI_MODO_PAGO ?? "apikey",
+      modoPago: process.env.BENEVRIA_MODO_PAGO ?? "apikey",
       uso: j?.usage ?? null,
     });
   } catch (e) {

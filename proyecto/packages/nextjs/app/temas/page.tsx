@@ -12,8 +12,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { AYNI_ABI, AYNI_ADDRESS, explicarError } from "~~/lib/ayni";
-import { contratoDesplegado, useEstadoAyni, useTema } from "~~/lib/useAyni";
+import { BENEVRIA_ABI, BENEVRIA_ADDRESS, explicarError } from "~~/lib/benevria";
+import { contratoDesplegado, useEstadoBenevria, useTema } from "~~/lib/useBenevria";
 
 function FilaTema({ id }: { id: number }) {
   const { data, refetch } = useTema(id);
@@ -46,7 +46,7 @@ function FilaTema({ id }: { id: number }) {
           className="btn btn-xs btn-outline"
           disabled={!isConnected || isPending}
           onClick={() =>
-            writeContract({ address: AYNI_ADDRESS, abi: AYNI_ABI, functionName: "votarTema", args: [id] })
+            writeContract({ address: BENEVRIA_ADDRESS, abi: BENEVRIA_ABI, functionName: "votarTema", args: [id] })
           }
         >
           {isPending ? "…" : "También lo quiero"}
@@ -60,7 +60,7 @@ function FilaTema({ id }: { id: number }) {
 }
 
 export default function Temas() {
-  const estado = useEstadoAyni();
+  const estado = useEstadoBenevria();
   const { isConnected } = useAccount();
   const [titulo, setTitulo] = useState("");
   const { writeContract, data: txHash, isPending, error } = useWriteContract();
@@ -94,8 +94,8 @@ export default function Temas() {
             disabled={!isConnected || isPending || minando || titulo.trim().length < 10}
             onClick={() =>
               writeContract({
-                address: AYNI_ADDRESS,
-                abi: AYNI_ABI,
+                address: BENEVRIA_ADDRESS,
+                abi: BENEVRIA_ABI,
                 functionName: "pedirTema",
                 args: [titulo.trim()],
               })

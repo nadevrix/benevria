@@ -37,7 +37,7 @@ Con esto el chat funciona hoy.
 `arbitrum-sepolia`. Está verificado que soporta esa red (ver `02-verificaciones.md`).
 Requiere USDC de prueba en la wallet del keeper.
 
-Dejé el código preparado para las dos: la ruta de inferencia lee `AYNI_MODO_PAGO`
+Dejé el código preparado para las dos: la ruta de inferencia lee `BENEVRIA_MODO_PAGO`
 (`apikey` o `x402`) y cambia sola.
 
 **Mi recomendación:** arranca con A para tener el demo grabado y seguro, y si sobra
@@ -70,9 +70,6 @@ tiempo el domingo, cambias a B. No al revés.
 
 ## Nombre del proyecto
 
-Le puse **Ayni** — principio andino de reciprocidad: *hoy por ti, mañana por mí*.
-Es literalmente la mecánica del proyecto (aportas conocimiento, la comunidad te devuelve)
-y te ancla en la región sin que suene forzado.
-
-**Si no te gusta, se cambia en 5 minutos** — está en el nombre del crate, el nombre del
-contrato y los textos del frontend. Dímelo y lo renombro.
+**BenevrIA** — *benevolencia* + *IA*. Elegido por ti, y encaja mejor que la alternativa
+anterior porque dice la **tesis** (una IA que es bien común) en vez de solo la mecánica.
+Combina con la marca **nadevrix**.

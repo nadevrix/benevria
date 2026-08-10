@@ -1,6 +1,7 @@
-//! # Ayni — núcleo on-chain de una IA colectiva
+//! # BenevrIA — núcleo on-chain de una IA colectiva
 //!
-//! *Ayni* es el principio andino de reciprocidad: **hoy por ti, mañana por mí**.
+//! *BenevrIA* = benevolencia + IA: una inteligencia artificial concebida como **bien
+//! común**, no como producto que se alquila.
 //!
 //! Este contrato es el árbitro de una IA de acceso libre que la comunidad enseña.
 //! No guarda conocimiento ni ejecuta modelos: decide, sin que haya que confiar en
@@ -105,16 +106,19 @@ const ARBSYS: Address = Address::new([
 // Interfaces externas
 // ---------------------------------------------------------------------------
 
-sol_interface! {
-    /// Precompilado de sistema de Arbitrum, en la dirección fija `0x64`.
-    ///
-    /// Se usa porque en Arbitrum `block.number` devuelve el bloque de **L1**, no el
-    /// de L2. Calcular épocas con `block.number` daría un reloj ~12× más lento y
-    /// desalineado con la cadena donde realmente vive el contrato.
-    interface IArbSys {
-        function arbBlockNumber() external view returns (uint256);
-    }
-}
+/// Selector de `arbBlockNumber()` del precompilado ArbSys — los primeros 4 bytes de
+/// su keccak256.
+///
+/// Se llama a ArbSys con un `static_call` explícito en vez de con `sol_interface!`
+/// por una razón concreta: la macro emite una llamada que baja directo al hostio del
+/// nodo, sin pasar por la capa de host del SDK. Eso la vuelve imposible de simular en
+/// pruebas —revienta con "HostIO functions are not available in stylus-test"—. Con la
+/// llamada explícita, **el mismo código corre en cadena y bajo test**.
+///
+/// Se usa ArbSys porque en Arbitrum `block.number` devuelve el bloque de **L1**, no el
+/// de L2. Calcular épocas con él daría un reloj ~12× más lento y desalineado con la
+/// cadena donde realmente vive el contrato.
+const SEL_ARB_BLOCK_NUMBER: [u8; 4] = [0xa3, 0xb1, 0xb3, 0x1d];
 
 // ---------------------------------------------------------------------------
 // Eventos
@@ -234,7 +238,7 @@ sol_storage! {
     }
 
     #[entrypoint]
-    pub struct AyniCore {
+    pub struct BenevriaCore {
         address owner;
         address keeper;
 
@@ -267,7 +271,7 @@ sol_storage! {
 }
 
 #[public]
-impl AyniCore {
+impl BenevriaCore {
     #[constructor]
     pub fn constructor(&mut self, owner: Address, keeper: Address) {
         self.owner.set(owner);
@@ -671,7 +675,7 @@ impl AyniCore {
 // Lógica interna (no expuesta en el ABI)
 // ---------------------------------------------------------------------------
 
-impl AyniCore {
+impl BenevriaCore {
     /// Compara el vector nuevo contra la ventana reciente del corpus.
     fn similitud_contra_corpus(&self, nuevo: &[i8; DIMS]) -> (i32, usize) {
         let total = self.corpus.len();
@@ -706,10 +710,17 @@ impl AyniCore {
     /// Lee el bloque de L2 del precompilado ArbSys, con respaldo al bloque del VM
     /// para que los tests y el devnode local funcionen sin el precompilado.
     fn bloque_l2_interno(&self) -> u64 {
-        let arbsys = IArbSys::new(ARBSYS);
-        match arbsys.arb_block_number(self) {
-            Ok(n) => n.to::<u64>(),
-            Err(_) => self.vm().block_number(),
+        // El contexto de la llamada es el propio contrato: `&T` implementa
+        // `StaticCallContext` para todo `T: TopLevelStorage`.
+        match self.vm().static_call(&self, ARBSYS, &SEL_ARB_BLOCK_NUMBER) {
+            Ok(datos) if datos.len() >= 32 => {
+                let mut b = [0u8; 8];
+                b.copy_from_slice(&datos[24..32]);
+                u64::from_be_bytes(b)
+            }
+            // Respaldo: en un devnode sin precompilados el contrato sigue funcionando,
+            // solo con un reloj menos preciso.
+            _ => self.vm().block_number(),
         }
     }
 
@@ -752,32 +763,16 @@ mod tests_contrato {
     // Import selectivo: `testing::*` trae su propio `Error` y colisiona con el nuestro.
     use stylus_sdk::testing::TestVM;
 
-    // Stubs de los hostio de Stylus. Al compilar los tests de forma nativa no existe
-    // el entorno WASM del nodo, así que hay que proveerlos. Los de llamada externa
-    // devuelven fallo (1) a propósito: eso ejercita el camino de respaldo de
-    // `bloque_l2_interno`, que cae a `vm().block_number()` cuando ArbSys no está
-    // disponible —exactamente lo que ocurre en un devnode sin precompilados—.
-    #[no_mangle]
-    pub unsafe extern "C" fn static_call_contract(
-        _contract: *const u8, _calldata: *const u8, _len: usize,
-        _gas: u64, _ret_len: *mut usize,
-    ) -> u8 { 1 }
-    #[no_mangle]
-    pub unsafe extern "C" fn call_contract(
-        _contract: *const u8, _calldata: *const u8, _len: usize,
-        _value: *const u8, _gas: u64, _ret_len: *mut usize,
-    ) -> u8 { 1 }
-    #[no_mangle]
-    pub unsafe extern "C" fn delegate_call_contract(
-        _contract: *const u8, _calldata: *const u8, _len: usize,
-        _gas: u64, _ret_len: *mut usize,
-    ) -> u8 { 1 }
-    #[no_mangle]
-    pub unsafe extern "C" fn read_return_data(_dest: *mut u8, _offset: usize, _size: usize) -> usize { 0 }
-    #[no_mangle]
-    pub unsafe extern "C" fn return_data_size() -> usize { 0 }
-    #[no_mangle]
-    pub unsafe extern "C" fn storage_flush_cache(_clear: bool) {}
+    /// Simula el precompilado ArbSys devolviendo un número de bloque de L2.
+    ///
+    /// El SDK de pruebas no trae precompilados, así que la llamada externa se simula.
+    /// Es la forma correcta de hacerlo: antes esto estaba parcheado con stubs
+    /// `#[no_mangle]`, que dejaron de funcionar al subir de versión el SDK.
+    fn simular_arbsys(vm: &TestVM, bloque_l2: u64) {
+        let mut retorno = [0u8; 32];
+        retorno[24..32].copy_from_slice(&bloque_l2.to_be_bytes());
+        vm.mock_static_call(ARBSYS, SEL_ARB_BLOCK_NUMBER.to_vec(), Ok(retorno.to_vec()));
+    }
 
     const DUENO: Address = Address::new([0x11; 20]);
     const KEEPER: Address = Address::new([0x22; 20]);
@@ -796,9 +791,10 @@ mod tests_contrato {
         FixedBytes::from([n; 32])
     }
 
-    fn nuevo() -> (TestVM, AyniCore) {
+    fn nuevo() -> (TestVM, BenevriaCore) {
         let vm = TestVM::default();
-        let mut c = AyniCore::from(&vm);
+        simular_arbsys(&vm, 1_000);
+        let mut c = BenevriaCore::from(&vm);
         c.constructor(DUENO, KEEPER);
         (vm, c)
     }
@@ -938,7 +934,8 @@ mod tests_contrato {
     #[test]
     fn quien_no_aporto_no_puede_reclamar() {
         let (vm, mut c) = nuevo();
-        vm.set_block_number(BLOQUES_POR_EPOCA * 2);
+        // El reloj que manda es el de L2, via ArbSys — no `block.number`.
+        simular_arbsys(&vm, BLOQUES_POR_EPOCA * 2);
         vm.set_sender(PROFESORA);
         let err = c.reclamar(U256::from(0)).unwrap_err();
         assert!(matches!(err, Error::SinPuntos(_)), "esperaba SinPuntos");
