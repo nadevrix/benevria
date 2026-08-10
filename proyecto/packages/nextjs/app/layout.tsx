@@ -21,9 +21,10 @@ const baseUrl = process.env.VERCEL_URL
   : `http://localhost:${process.env.PORT || 3000}`;
 const imageUrl = `${baseUrl}/thumbnail.jpg`;
 
-const title = "Create Stylus Dapp";
-const titleTemplate = "%s | Create Stylus Dapp";
-const description = "Built with 🏗 Scaffold-Stylus";
+const title = "Ayni — IA colectiva sobre Arbitrum";
+const titleTemplate = "%s | Ayni";
+const description =
+  "Una IA gratuita cuyo nivel de modelo lo decide un contrato Stylus que verifica on-chain la novedad de lo que la comunidad le ensena.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
