@@ -1,41 +1,85 @@
 # Estado del trabajo — Ayni
 
-> Bitácora viva. Se actualiza en cada avance.
-> **Última actualización:** 2026-08-10
+> Bitácora viva. **Última actualización: 2026-08-10, madrugada.**
 
 ## Reloj
 
 | | |
 |---|---|
 | Cierre de entregas | **12 de agosto, 4:00 p.m. (hora Bolivia)** |
-| Tiempo restante al empezar | ~2 días |
-| Estado general | 🟡 En construcción |
+| Estado general | 🟢 MVP construido y probado · 🔴 bloqueado en fondeo para desplegar |
 
 ---
 
 ## ✅ Hecho
 
-- [x] Concepto cerrado y validado contra las 5 preguntas eliminatorias del briefing
-- [x] Verificación web de x402, facilitadores y soporte de red (ver `02-verificaciones.md`)
-- [x] `git init` y repositorio inicializado
-- [x] `.npmrc` endurecido contra el ataque de cadena de suministro activo (ver `03-seguridad.md`)
-- [x] Bitácora creada
+### Contrato
+- [x] `AyniCore` en Rust/Stylus: verificación de novedad on-chain por similitud coseno
+- [x] Matemática vectorial en punto fijo (módulo `vector.rs` separado y testeado)
+- [x] Rechazo de duplicados exactos (hash) y parafraseados (coseno > 0,90)
+- [x] Nivel colectivo = mín(conocimiento acumulado, tesorería disponible)
+- [x] Épocas vía precompilado **ArbSys `0x64`**, con respaldo a `block_number`
+- [x] Tesorería: ingreso partido 30/70, reparto proporcional, keeper acotado
+- [x] Panel de demanda de temas con votos
+- [x] **28/28 tests pasan**
+- [x] **`cargo stylus check` OK** — 33,1 KB, activación 0,000174 ETH
+- [x] ABI exportado
 
-## 🔄 En curso
+### Frontend
+- [x] Panel: nivel, barra de progreso, qué frena el nivel, tesorería, época, bloque L2
+- [x] `/aportar`: separa visualmente las dos capas (fuera vs dentro de la cadena)
+- [x] `/chat`: lee el nivel del contrato para elegir modelo
+- [x] `/temas`: panel de demanda
+- [x] `/api/embedding`: heurísticas + filtro de datos personales + embedding + empaquetado
+- [x] `/api/chat`: nivel on-chain → modelo, con modos `apikey` y `x402`
+- [x] Embedding local de respaldo (arranca sin API key)
+- [x] **`next build` OK, TypeScript sin errores**, 12 rutas
 
-- [ ] Monorepo Scaffold-Stylus
-- [ ] Contrato `AyniCore` en Rust/Stylus
+### Infraestructura y seguridad
+- [x] Scaffold-Stylus clonado desde el repo correcto y endurecido
+- [x] Defensas contra el ataque npm activo (ver `03-seguridad.md`)
+- [x] Yarn verificado por hash contra el release oficial
+- [x] Pipeline de despliegue probado de punta a punta
+- [x] Wallet de despliegue generada
+- [x] 3 commits con fechas dentro de la ventana del hackathon
 
-## ⬜ Pendiente
+### Documentación
+- [x] `README.md` con instalación, arquitectura y limitaciones declaradas
+- [x] **Diagrama Mermaid** (entregable 7 ✅)
+- [x] `CREDITOS.md` (requisito del hackathon)
+- [x] Bitácora completa: decisiones, verificaciones, seguridad, guion de pitch
 
-- [ ] Tests del contrato + `cargo stylus check`
-- [ ] Despliegue en Arbitrum Sepolia (**requiere fondear wallet — ver `04-para-rodrigo.md`**)
-- [ ] Frontend: aportar / chat / dashboard
-- [ ] API routes: embeddings + inferencia
-- [ ] Despliegue del frontend en Render
-- [ ] README con instalación + diagrama Mermaid
-- [ ] `CREDITOS.md`
-- [ ] Entregables 1–4 (videos, deck) — **los tiene que hacer Rodrigo, no los puedo grabar yo**
+---
+
+## 🔴 Bloqueado — necesita a Rodrigo
+
+**Fondear `0x72736bFd6100DA7388C9Bc86c7d32819C465efd9` en Arbitrum Sepolia.**
+
+El despliegue está listo y falla **únicamente** por esto:
+
+```
+not enough funds in account 0x72736bFd6100DA7388C9Bc86c7d32819C465efd9
+balance 0 < 167479783972923 wei
+```
+
+Con fondos, un solo comando lo despliega:
+```bash
+cd proyecto && yarn deploy --network arbitrumSepolia
+```
+
+Detalle en `04-para-rodrigo.md`.
+
+---
+
+## ⬜ Pendiente después del despliegue
+
+- [ ] Rellenar `NEXT_PUBLIC_AYNI_ADDRESS` y la tabla de contratos del README
+- [ ] Desplegar el frontend en Render
+- [ ] Sembrar el corpus con 5–10 aportes reales para que el demo tenga sustancia
+- [ ] Grabar video pitch y video demo (guion listo en `05-guion-pitch.md`)
+- [ ] Armar el deck (estructura lista en `05-guion-pitch.md`)
+- [ ] Push a GitHub público
+- [ ] Registrar en la plataforma oficial
 
 ---
 
@@ -47,47 +91,24 @@ Una IA colectiva gratuita cuyo **nivel de modelo lo decide un contrato Stylus** 
 on-chain la calidad y novedad de lo que la comunidad le enseña, con una tesorería auditable
 que paga su propia inferencia y reparte los ingresos entre quienes aportaron.
 
-```
-Contribuyente aporta conocimiento
-        ↓
-backend: heurísticas + embedding (truncado a 64 dims)
-        ↓
-CONTRATO STYLUS (Arbitrum Sepolia)
-  · similitud coseno contra el corpus → ¿es novedoso?
-  · emite puntos al aportante
-  · acumula puntaje colectivo → fija el TIER del modelo
-        ↓
-Cualquiera pregunta → el frontend lee el tier del contrato → usa ese modelo
-        ↓
-keeper (solo gasta lo que el contrato autorizó esta época)
-        ↓
-x402 → USDC → proveedor de inferencia
-        ↓
-Empresa compra créditos con USDC → tesorería
-        ↓
-Fin de época: cada aportante reclama su % → USDC a su billetera
-```
-
-### Las dos separaciones que sostienen el diseño
+### Las dos separaciones que lo sostienen
 
 | | Colectivo | Individual |
 |---|---|---|
-| **Nivel del modelo** | ✅ lo gana la comunidad, lo usan todos | |
-| **Cuota gratis base** | ✅ tan generosa como permita la tesorería | |
-| **Puntos / dinero** | | ✅ solo quien aporta, proporcional |
-| **Cuota extra de uso** | | ✅ solo quien aporta |
+| Nivel del modelo | ✅ lo gana la comunidad, lo usan todos | |
+| Puntos / dinero | | ✅ solo quien aporta, proporcional |
 
 | | Se vende | Se gana |
 |---|---|---|
-| **Créditos** (consumibles, no transferibles) | ✅ | |
-| **Puntos** (derecho de cobro sobre tesorería) | ❌ nunca | ✅ |
+| Créditos (consumibles) | ✅ | |
+| Puntos (derecho de cobro) | ❌ nunca | ✅ |
 
-### Por qué pasa los filtros del hackathon
+### Por qué pasa los filtros
 
 | Filtro | Respuesta |
 |---|---|
-| ¿Usuario nombrable? | El profesional que sabe algo que la IA alucina y que nadie escribió nunca |
-| ¿Funcionaría con una BD? | No: el punto es que el reparto y el nivel sean auditables **sin confiar en el operador** |
-| ¿Por qué Stylus? | Similitud coseno sobre el corpus en cada aporte — en Solidity es impagable en gas |
-| ¿IA decorativa? | La IA **es** el objeto que sube y baja de nivel, y el juez de calidad |
-| ¿Cabe en el tiempo? | Sí con el alcance recortado (ver `01-decisiones.md`) |
+| ¿Usuario nombrable? | El profesional que sabe lo que la IA alucina y hoy no cobra por ello |
+| ¿Funcionaría con una BD? | No: un servidor calcula lo mismo pero no puede **probarlo** |
+| ¿Por qué Stylus? | ~16.000 mult-sumas por transacción — impagable en Solidity |
+| ¿IA decorativa? | La IA **es** el objeto que sube y baja de nivel |
+| ¿Cabe en el tiempo? | Ya cabe: está construido y probado |
