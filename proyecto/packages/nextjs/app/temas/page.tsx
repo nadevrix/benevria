@@ -12,6 +12,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { RequiereWallet } from "~~/components/RequiereWallet";
 import { BENEVRIA_ABI, BENEVRIA_ADDRESS, explicarError } from "~~/lib/benevria";
 import { contratoDesplegado, useEstadoBenevria, useTema } from "~~/lib/useBenevria";
 
@@ -73,6 +74,10 @@ export default function Temas() {
   }
 
   return (
+    <RequiereWallet
+      titulo="Conecta tu wallet para participar"
+      motivo="Pedir un tema y votar quedan registrados en la cadena: por eso un voto vale uno y nadie puede inflar la demanda desde un servidor."
+    >
     <div className="mx-auto max-w-3xl px-6 py-10">
       <h1 className="text-3xl font-bold">Panel de temas</h1>
       <p className="mt-2 opacity-70">
@@ -104,7 +109,6 @@ export default function Temas() {
             {isPending || minando ? "Publicando…" : "Pedirlo"}
           </button>
         </div>
-        {!isConnected && <p className="mt-2 text-sm text-warning">Conecta tu wallet para pedir un tema.</p>}
         {error && <p className="mt-2 text-sm text-error">{explicarError(error)}</p>}
       </div>
 
@@ -119,5 +123,6 @@ export default function Temas() {
         )}
       </ul>
     </div>
+    </RequiereWallet>
   );
 }

@@ -18,11 +18,12 @@ type HeaderMenuLink = {
 };
 
 export const menuLinks: HeaderMenuLink[] = [
-  { label: "Panel", href: "/" },
-  { label: "Enseñar", href: "/aportar" },
+  { label: "Inicio", href: "/" },
   { label: "Preguntar", href: "/chat" },
+  { label: "Enseñar", href: "/aportar" },
   { label: "Temas", href: "/temas" },
-  { label: "Contrato", href: "/debug" },
+  { label: "Panel", href: "/panel" },
+  { label: "Cobrar", href: "/recompensas" },
 ];
 
 export const HeaderMenuLinks = () => {

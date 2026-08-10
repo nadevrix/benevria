@@ -15,6 +15,7 @@
 
 import { useState } from "react";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { RequiereWallet } from "~~/components/RequiereWallet";
 import { BENEVRIA_ABI, BENEVRIA_ADDRESS, explicarError } from "~~/lib/benevria";
 import { contratoDesplegado, useEstadoBenevria } from "~~/lib/useBenevria";
 
@@ -75,6 +76,10 @@ export default function Aportar() {
   }
 
   return (
+    <RequiereWallet
+      titulo="Conecta tu wallet para enseñar"
+      motivo="Tu aporte queda registrado en la cadena a tu nombre — es lo que después te da derecho a cobrar. Para firmarlo hace falta una wallet."
+    >
     <div className="mx-auto max-w-3xl px-6 py-10">
       <h1 className="text-3xl font-bold">Enseñar algo a la IA</h1>
       <p className="mt-2 opacity-70">
@@ -210,5 +215,6 @@ export default function Aportar() {
         </div>
       )}
     </div>
+    </RequiereWallet>
   );
 }
