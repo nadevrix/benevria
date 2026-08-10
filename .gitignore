@@ -1,0 +1,10 @@
+node_modules/
+.next/
+target/
+.env
+.env.local
+*.log
+.DS_Store
+.yarn/cache/
+.yarn/install-state.gz
+.playwright-mcp/
