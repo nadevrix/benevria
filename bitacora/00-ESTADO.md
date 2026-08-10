@@ -30,6 +30,10 @@
 - [x] `/aportar`: separa visualmente las dos capas (fuera vs dentro de la cadena)
 - [x] `/chat`: lee el nivel del contrato para elegir modelo
 - [x] `/temas`: panel de demanda
+- [x] `/recompensas`: cobro con el cálculo del reparto a la vista
+- [x] Portada con propuesta de valor (el panel se movió a `/panel`)
+- [x] Puerta de conexión de wallet en las rutas que escriben en cadena
+- [x] `yarn sembrar`: 4 temas + 6 aportes reales, verificados sin colisión
 - [x] `/api/embedding`: heurísticas + filtro de datos personales + embedding + empaquetado
 - [x] `/api/chat`: nivel on-chain → modelo, con modos `apikey` y `x402`
 - [x] Embedding local de respaldo (arranca sin API key)

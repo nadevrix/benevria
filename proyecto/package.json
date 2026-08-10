@@ -33,7 +33,8 @@
     "next:build": "yarn workspace @ss/nextjs build",
     "vercel": "yarn workspace @ss/nextjs vercel",
     "vercel:yolo": "yarn workspace @ss/nextjs vercel:yolo",
-    "new-module": "yarn workspace @ss/stylus new-module"
+    "new-module": "yarn workspace @ss/stylus new-module",
+    "sembrar": "yarn workspace @ss/stylus sembrar"
   },
   "packageManager": "yarn@3.2.3"
 }

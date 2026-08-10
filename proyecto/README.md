@@ -196,6 +196,9 @@ yarn deploy
 cp packages/nextjs/.env.example packages/nextjs/.env.local
 # rellenar NEXT_PUBLIC_BENEVRIA_ADDRESS con la dirección desplegada
 yarn start                  # http://localhost:3000
+
+# Sembrar el corpus con conocimiento real, para que el demo tenga sustancia
+yarn sembrar
 ```
 
 ### Variables de entorno
@@ -217,6 +220,22 @@ yarn start                  # http://localhost:3000
 | `BENEVRIA_MODO_PAGO` | no | `apikey` (por defecto) o `x402` |
 
 ---
+
+## Rutas
+
+| Ruta | Necesita wallet | Qué hace |
+|---|---|---|
+| `/` | no | Portada: problema, cómo funciona, por qué on-chain |
+| `/chat` | **no** | La IA, gratis para cualquiera. Lee el nivel del contrato para elegir modelo |
+| `/aportar` | sí | Enseñar conocimiento. Separa la capa off-chain de la verificación on-chain |
+| `/temas` | sí | Panel de demanda: pedir y votar temas |
+| `/panel` | no | Estado del protocolo: nivel, corpus, tesorería, época, bloque L2 |
+| `/recompensas` | sí | Cobrar lo que corresponde, con el cálculo del reparto a la vista |
+| `/debug` | sí | Interfaz cruda del contrato (viene del scaffold) |
+
+> El chat **no** pide wallet a propósito: la IA es gratis para todos, aporten o no.
+> Ponerle un muro contradiría la tesis del proyecto. Y en web3 no hay "iniciar sesión" —
+> la wallet **es** la identidad, y solo hace falta para escribir en la cadena.
 
 ## Tests
 

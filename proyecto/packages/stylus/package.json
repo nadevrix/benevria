@@ -15,7 +15,8 @@
     "test": "ts-node scripts/test.ts",
     "lint": "eslint scripts --ext .ts",
     "lint:fix": "eslint scripts --ext .ts --fix",
-    "new-module": "bash scripts/new_module.sh"
+    "new-module": "bash scripts/new_module.sh",
+    "sembrar": "ts-node scripts/sembrar_demo.ts"
   },
   "keywords": [
     "stylus",
