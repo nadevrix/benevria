@@ -265,9 +265,19 @@ Se declaran en vez de disimularse:
    (verificado contra su API: solo `Authorization: Bearer`). Hasta que complete su
    migración, el gateway paga al proveedor con una API key. El protocolo está listo; falta
    el proveedor.
-2. **El embedding local es léxico, no semántico.** Detecta copias y reformulaciones
-   cercanas, no equivalencia semántica con vocabulario distinto. Con `EMBEDDINGS_API_KEY`
-   se usa un modelo real.
+2. **El embedding local es léxico, no semántico** — y está medido, no supuesto.
+   Comparando un mismo trámite escrito de tres formas contra el original:
+
+   | Variante | Similitud | Veredicto del contrato |
+   |---|---|---|
+   | Reenvío casi idéntico | **99,3 %** | ❌ rechazado como duplicado |
+   | Reescrito con otras palabras | 67,5 % | ✅ aceptado |
+   | Tema distinto | 22,1 % | ✅ aceptado |
+
+   O sea: el respaldo local **sí mata el reenvío**, que es el ataque económicamente
+   racional, pero **deja pasar el parafraseo profundo**. Con `EMBEDDINGS_API_KEY`
+   apuntando a un modelo de embeddings real, el segundo caso también se detecta. La
+   lógica del contrato no cambia: cambia la calidad del vector que recibe.
 3. **El filtro de datos personales es un mejor esfuerzo.** Ningún filtro de PII es
    infalible y prometerlo sería exposición legal gratuita.
 4. **La ventana del corpus es de 256 vectores.** Sin tope, el costo de aportar crecería
