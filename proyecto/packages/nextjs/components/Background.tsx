@@ -9,8 +9,11 @@ export const BackGround = () => {
     return <></>;
   }
 
+  // Los blobs miden 630px fijos. En un móvil de 375px desbordaban el documento
+  // hasta 638px, provocando scroll horizontal y descolocando todo el contenido.
+  // Se encierran en un contenedor que recorta y no captura eventos.
   return (
-    <>
+    <div className="pointer-events-none fixed inset-0 overflow-hidden -z-50" aria-hidden="true">
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[70vh] w-[70vh] rounded-full -z-50"
         style={{
@@ -32,6 +35,6 @@ export const BackGround = () => {
           filter: "blur(274.85px)",
         }}
       />
-    </>
+    </div>
   );
 };

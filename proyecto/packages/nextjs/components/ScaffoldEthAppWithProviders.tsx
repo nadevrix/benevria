@@ -28,7 +28,10 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     <>
       <div className="flex flex-col min-h-screen">
         <Header />
-        <main className="relative flex flex-col flex-1">
+        {/* min-w-0: por defecto un item flex tiene min-width:auto y no puede
+            encoger por debajo de su contenido, asi que en movil el contenido
+            desbordaba el ancho de la pantalla y aparecia scroll horizontal. */}
+        <main className="relative flex min-w-0 flex-col flex-1">
           <BackGround />
           {children}
         </main>

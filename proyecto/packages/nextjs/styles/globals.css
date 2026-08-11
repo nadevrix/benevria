@@ -579,3 +579,24 @@ p {
 .barra-acento {
   background-image: linear-gradient(90deg, var(--benevria-acento), var(--benevria-acento-2));
 }
+
+/* ---------------------------------------------------------------------------
+   Sin scroll horizontal
+
+   El scaffold dibuja blobs decorativos de 630px fijos. En pantallas de movil
+   desbordaban el documento y descolocaban todo el contenido. Los blobs ya van
+   recortados en su contenedor; esto es el candado de seguridad para que ningun
+   elemento futuro vuelva a romper el ancho.
+   --------------------------------------------------------------------------- */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Las direcciones y hashes son cadenas largas sin espacios: en movil hay que
+   dejarlas cortar en cualquier punto o rompen el contenedor. */
+.font-mono,
+code {
+  overflow-wrap: anywhere;
+}
