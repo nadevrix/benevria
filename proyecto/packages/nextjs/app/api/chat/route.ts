@@ -94,41 +94,81 @@ export async function POST(req: NextRequest) {
     ? `\n\nConocimiento aportado por la comunidad y relevante a esta pregunta:\n${contexto.map((c, i) => `[${i + 1}] ${c}`).join("\n")}`
     : "";
 
-  try {
-    const r = await fetch(`${baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: modelo.id,
-        messages: [{ role: "system", content: SISTEMA + contexes }, ...mensajes],
-        max_tokens: 800,
-      }),
-    });
+  // Cadena de intentos: modelo del nivel, y si falla, sus respaldos.
+  //
+  // Los modelos de nivel gratuito devuelven 429 cuando el proveedor está saturado, y
+  // algunos responden con contenido vacío. Sin esta cadena, el chat se cae en medio
+  // de una demostración en vivo. Se registra qué modelo respondió de verdad para no
+  // afirmar en la interfaz algo distinto de lo que ocurrió.
+  const cadena = [modelo.id, ...modelo.respaldos];
+  const fallos: string[] = [];
 
-    if (!r.ok) {
-      const detalle = await r.text();
-      return NextResponse.json(
-        { error: `El proveedor respondió ${r.status}`, detalle: detalle.slice(0, 300) },
-        { status: 502 },
-      );
+  for (const idModelo of cadena) {
+    try {
+      const r = await fetch(`${baseUrl}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: idModelo,
+          messages: [{ role: "system", content: SISTEMA + contexes }, ...mensajes],
+          max_tokens: 800,
+        }),
+      });
+
+      if (!r.ok) {
+        fallos.push(`${idModelo}: HTTP ${r.status}`);
+        continue;
+      }
+
+      const j = await r.json();
+      const contenido: string | null | undefined = j?.choices?.[0]?.message?.content;
+
+      // Contenido vacío cuenta como fallo: hay modelos gratuitos que responden 200
+      // con `content: null`.
+      if (!contenido || !contenido.trim()) {
+        fallos.push(`${idModelo}: respuesta vacía`);
+        continue;
+      }
+
+      return NextResponse.json({
+        respuesta: limpiarRazonamiento(contenido),
+        nivel,
+        modelo: idModelo,
+        nombreModelo: modelo.nombre,
+        // Si respondió un respaldo, se dice: la interfaz no debe afirmar que corrió
+        // el modelo del nivel cuando no fue así.
+        usoRespaldo: idModelo !== modelo.id,
+        leidoDeCadena,
+        modoPago: process.env.BENEVRIA_MODO_PAGO ?? "apikey",
+        uso: j?.usage ?? null,
+      });
+    } catch (e) {
+      fallos.push(`${idModelo}: ${String(e).slice(0, 80)}`);
     }
-
-    const j = await r.json();
-    const respuesta = j?.choices?.[0]?.message?.content ?? "(respuesta vacía)";
-
-    return NextResponse.json({
-      respuesta,
-      nivel,
-      modelo: modelo.id,
-      nombreModelo: modelo.nombre,
-      leidoDeCadena,
-      modoPago: process.env.BENEVRIA_MODO_PAGO ?? "apikey",
-      uso: j?.usage ?? null,
-    });
-  } catch (e) {
-    return NextResponse.json({ error: `Fallo llamando al proveedor: ${String(e).slice(0, 200)}` }, { status: 502 });
   }
+
+  return NextResponse.json(
+    {
+      error: "Ningún modelo del nivel respondió. Los modelos de nivel gratuito se saturan a ratos; reintenta.",
+      intentos: fallos,
+    },
+    { status: 502 },
+  );
+}
+
+/**
+ * Quita el razonamiento interno que algunos modelos filtran en la salida.
+ *
+ * Varios modelos de razonamiento anteponen su cadena de pensamiento
+ * ("Okay, the user asked…") antes de la respuesta. Se recortan las etiquetas
+ * conocidas y los preámbulos más comunes.
+ */
+function limpiarRazonamiento(texto: string): string {
+  let t = texto;
+  t = t.replace(/<think>[\s\S]*?<\/think>/gi, "");
+  t = t.replace(/^\s*(Okay|Alright|Hmm|Let me|First,|Here's a thinking process)[\s\S]*?\n\n/i, "");
+  return t.trim() || texto.trim();
 }

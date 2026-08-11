@@ -25,7 +25,13 @@ function FilaTema({ id }: { id: number }) {
   if (isSuccess) void refetch();
   if (!data) return null;
 
-  const [titulo, , votos, aportes] = data as unknown as [string, string, number, number];
+  // El contrato devuelve una tupla con nombres, no una lista posicional.
+  const { titulo, votos, aportes } = data as unknown as {
+    titulo: string;
+    solicitante: string;
+    votos: number;
+    aportes: number;
+  };
   const cubierto = aportes > 0;
 
   return (

@@ -24,26 +24,44 @@ export const ESCALA = 127;
  * Solo modelos de pesos abiertos: revender acceso a modelos propietarios
  * (Claude, Gemini, GPT) choca con los términos de servicio de sus dueños.
  */
-export const MODELOS_POR_NIVEL: Record<number, { id: string; nombre: string; nota: string }> = {
+/**
+ * Cada nivel lleva un modelo principal y respaldos.
+ *
+ * Los respaldos no son adorno: los modelos de nivel gratuito devuelven 429 al azar
+ * cuando el proveedor está saturado. Sin cadena de respaldo, el chat se cae en medio
+ * de una demostración en vivo.
+ *
+ * La escalera se eligió probando los 16 modelos gratuitos disponibles uno por uno.
+ * Se descartaron los que devuelven respuesta vacía y los que filtran su razonamiento
+ * interno en la salida ("Okay, the user asked…"), que se vería mal en el chat.
+ */
+export const MODELOS_POR_NIVEL: Record<
+  number,
+  { id: string; nombre: string; nota: string; respaldos: string[] }
+> = {
   0: {
-    id: "meta-llama/llama-3.2-3b-instruct",
-    nombre: "Llama 3.2 3B",
+    id: "inclusionai/ling-3.0-tiny:free",
+    nombre: "Ling 3.0 Tiny",
     nota: "Nivel base: la comunidad aún no ha desbloqueado nada",
+    respaldos: ["nvidia/nemotron-nano-12b-v2-vl:free"],
   },
   1: {
-    id: "qwen/qwen-2.5-7b-instruct",
-    nombre: "Qwen 2.5 7B",
+    id: "nvidia/nemotron-nano-12b-v2-vl:free",
+    nombre: "Nemotron Nano 12B",
     nota: "Desbloqueado por la comunidad",
+    respaldos: ["google/gemma-4-26b-a4b-it:free", "inclusionai/ling-3.0-tiny:free"],
   },
   2: {
-    id: "deepseek/deepseek-chat",
-    nombre: "DeepSeek V3",
+    id: "google/gemma-4-26b-a4b-it:free",
+    nombre: "Gemma 4 26B",
     nota: "Desbloqueado por la comunidad",
+    respaldos: ["nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free", "nvidia/nemotron-nano-12b-v2-vl:free"],
   },
   3: {
-    id: "moonshotai/kimi-k2",
-    nombre: "Kimi K2",
+    id: "nvidia/nemotron-3-ultra-550b-a55b:free",
+    nombre: "Nemotron 3 Ultra 550B",
     nota: "Nivel máximo alcanzado por la comunidad",
+    respaldos: ["google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-nano-12b-v2-vl:free"],
   },
 };
 
@@ -118,11 +136,25 @@ export const BENEVRIA_ABI = [
   { type: "function", name: "tamanoCorpus", stateMutability: "view", inputs: [], outputs: [{ type: "uint256" }] },
   { type: "function", name: "totalTemas", stateMutability: "view", inputs: [], outputs: [{ type: "uint256" }] },
   {
+    // Stylus codifica un `Result<(A, B, C, D)>` como **una sola tupla**, no como
+    // cuatro salidas sueltas: la respuesta trae un offset de tupla al inicio.
+    // Declararlo como cuatro salidas hacía que viem leyera todo corrido un lugar
+    // y devolviera el título como bytes basura y los votos como un número enorme.
     type: "function",
     name: "tema",
     stateMutability: "view",
     inputs: [{ name: "id", type: "uint32" }],
-    outputs: [{ type: "string" }, { type: "address" }, { type: "uint32" }, { type: "uint32" }],
+    outputs: [
+      {
+        type: "tuple",
+        components: [
+          { name: "titulo", type: "string" },
+          { name: "solicitante", type: "address" },
+          { name: "votos", type: "uint32" },
+          { name: "aportes", type: "uint32" },
+        ],
+      },
+    ],
   },
   {
     type: "function",
