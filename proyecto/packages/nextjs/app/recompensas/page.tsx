@@ -46,7 +46,7 @@ function FilaEpoca({ epoca, esActual }: { epoca: bigint; esActual: boolean }) {
         </div>
         <div className="text-right">
           <div className="text-xs uppercase tracking-wide opacity-60">Te corresponde</div>
-          <div className="text-2xl font-bold text-primary">{Number(formatEther(reclamable)).toFixed(6)} ETH</div>
+          <div className="text-2xl font-bold acento">{Number(formatEther(reclamable)).toFixed(6)} ETH</div>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ function FilaEpoca({ epoca, esActual }: { epoca: bigint; esActual: boolean }) {
             {puntos.toString()} / {totales.toString()}
           </span>
           <span className="opacity-60">=</span>
-          <span className="text-primary">{Number(formatEther(reclamable)).toFixed(6)} ETH</span>
+          <span className="acento">{Number(formatEther(reclamable)).toFixed(6)} ETH</span>
         </div>
         <div className="mt-2 font-sans opacity-60">
           Aportaste el {porcentaje.toFixed(1)}% de la novedad verificada de esta época.

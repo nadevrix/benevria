@@ -27,7 +27,7 @@ function Metrica({
   return (
     <div className={`rounded-2xl border p-5 ${acento ? "border-primary/60 bg-primary/5" : "border-base-300 bg-base-100"}`}>
       <div className="text-xs uppercase tracking-wide opacity-60">{titulo}</div>
-      <div className={`mt-1 text-3xl font-bold ${acento ? "text-primary" : ""}`}>{valor}</div>
+      <div className={`mt-1 text-3xl font-bold ${acento ? "acento" : ""}`}>{valor}</div>
       {detalle && <div className="mt-1 text-sm opacity-70">{detalle}</div>}
     </div>
   );
@@ -64,7 +64,7 @@ export default function Panel() {
           <div>
             <div className="text-xs uppercase tracking-wide opacity-60">Nivel del modelo colectivo</div>
             <div className="mt-1 flex items-baseline gap-3">
-              <span className="text-5xl font-black text-primary">{e.nombreNivel}</span>
+              <span className="text-5xl font-black acento">{e.nombreNivel}</span>
               <span className="text-lg opacity-70">{e.modelo.nombre}</span>
             </div>
             <div className="mt-1 text-sm opacity-60">{e.modelo.nota}</div>
@@ -84,7 +84,7 @@ export default function Panel() {
           </div>
           <div className="h-4 w-full overflow-hidden rounded-full bg-base-300">
             <div
-              className="h-full rounded-full bg-primary transition-all duration-700"
+              className="h-full rounded-full barra-acento transition-all duration-700"
               style={{ width: `${e.progreso}%` }}
             />
           </div>

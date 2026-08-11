@@ -24,7 +24,7 @@ import { arbitrumSepolia } from "viem/chains";
 
 dotenvConfig({ path: path.resolve(__dirname, "../.env") });
 
-const RPC = process.env.RPC_URL ?? "https://sepolia-rollup.arbitrum.io/rpc";
+const RPC = process.env["RPC_URL"] ?? "https://sepolia-rollup.arbitrum.io/rpc";
 const DIMS = 64;
 const ESCALA = 127;
 
@@ -202,7 +202,7 @@ function direccionContrato(): Hex {
 }
 
 async function main() {
-  const pk = (process.env.PRIVATE_KEY_SEPOLIA ?? process.env.PRIVATE_KEY) as Hex | undefined;
+  const pk = (process.env["PRIVATE_KEY_SEPOLIA"] ?? process.env["PRIVATE_KEY"]) as Hex | undefined;
   if (!pk) throw new Error("Falta PRIVATE_KEY_SEPOLIA en packages/stylus/.env");
 
   const address = direccionContrato();

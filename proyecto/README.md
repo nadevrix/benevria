@@ -160,7 +160,30 @@ Así filtran los datasets de verdad, y así está implementado:
 
 | Contrato | Red | Dirección | Arbiscan |
 |---|---|---|---|
-| `BenevriaCore` | Arbitrum Sepolia | *(pendiente de despliegue)* | — |
+| `BenevriaCore` | Arbitrum Sepolia (421614) | `0xdf48b19ad2c77050fe08fef0dde577f4e5066e6d` | [Ver contrato](https://sepolia.arbiscan.io/address/0xdf48b19ad2c77050fe08fef0dde577f4e5066e6d) |
+
+**Transacción de despliegue:** [`0x51561c91…da5bb3af`](https://sepolia.arbiscan.io/tx/0x51561c91ac45dadc3333984cd61846c6c94443c61544cf71a2c98228da5bb3af)
+
+### Estado en cadena
+
+| Dato | Valor |
+|---|---|
+| Corpus verificado | 9 aportes |
+| Puntaje colectivo | 44.265 |
+| Nivel por conocimiento | Base (faltan 5.735 para Bronce) |
+| Nivel por tesorería | Plata |
+| **Nivel efectivo** | **Base** — el mínimo de los dos |
+| Presupuesto de inferencia | 0,056 ETH |
+| Pozo de aportantes | 0,024 ETH |
+
+> El nivel efectivo es Base aunque la tesorería alcance para Plata: **falta enseñanza, no
+> dinero**. Es la mecánica funcionando, y se ve en el panel.
+
+### Prueba de que ArbSys funciona en producción
+
+`bloqueL2()` devuelve **297.147.242**, mientras que el bloque de L1 Sepolia va por ~11,4
+millones. La llamada al precompilado `0x64` está resolviendo de verdad — no es un valor
+por defecto ni el respaldo.
 
 ---
 

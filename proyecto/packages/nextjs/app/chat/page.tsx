@@ -53,7 +53,7 @@ export default function Chat() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="text-xs uppercase tracking-wide opacity-60">Modelo vigente</div>
-            <div className="text-xl font-bold text-primary">
+            <div className="text-xl font-bold acento">
               {estado.modelo.nombre} <span className="text-sm font-normal opacity-70">· nivel {estado.nombreNivel}</span>
             </div>
           </div>

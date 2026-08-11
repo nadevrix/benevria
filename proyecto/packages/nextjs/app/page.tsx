@@ -68,7 +68,7 @@ export default function Portada() {
           ].map(m => (
             <div key={m.k} className="rounded-2xl border border-base-300 bg-base-100 p-4 text-center">
               <div className="text-xs uppercase tracking-wide opacity-60">{m.k}</div>
-              <div className="mt-1 text-2xl font-bold text-primary">{m.v}</div>
+              <div className="mt-1 text-2xl font-bold acento">{m.v}</div>
               <div className="text-xs opacity-60">{m.d}</div>
             </div>
           ))}
