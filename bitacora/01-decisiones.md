@@ -1,7 +1,8 @@
 # Decisiones tomadas durante la construcción
 
-> Decisiones que tomé yo mientras Rodrigo dormía, con su autorización explícita.
-> Todas son reversibles; las marcadas con 🔄 son las que más vale la pena revisar.
+> Registro de las decisiones de producto, técnicas y de alcance tomadas durante el
+> desarrollo, con el razonamiento detrás de cada una. Sirve para no re-discutir lo ya
+> resuelto y para poder revisar un criterio cuando cambian los supuestos.
 
 ---
 

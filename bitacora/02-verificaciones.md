@@ -1,7 +1,10 @@
 # Verificaciones hechas contra fuentes reales
 
-> Todo lo de aquí está comprobado contra la fuente, no contra un blog ni contra memoria.
-> Fecha de verificación: **2026-08-10**.
+> Cada afirmación de este documento fue comprobada contra la fuente primaria —una consulta
+> a la cadena, un endpoint del proveedor o la documentación oficial— y no contra artículos
+> de terceros. Se incluyen las comprobaciones cuyo resultado obligó a cambiar el plan.
+>
+> Fecha de verificación: **10 de agosto de 2026**.
 
 ---
 

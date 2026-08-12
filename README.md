@@ -20,7 +20,7 @@
 | Carpeta | Contenido |
 |---|---|
 | **[`proyecto/`](./proyecto)** | **El código entregable.** Contrato Stylus en Rust, aplicación Next.js, scripts de despliegue y siembra. [Ver documentación completa →](./proyecto/README.md) |
-| [`bitacora/`](./bitacora) | Registro de construcción: decisiones tomadas y por qué, verificaciones hechas contra fuentes, endurecimiento de seguridad y guion del pitch |
+| [`bitacora/`](./bitacora) | Registro de construcción: decisiones y su razonamiento, verificaciones contra fuentes primarias, y endurecimiento de seguridad |
 | [`docs-externa/`](./docs-externa) | Investigación previa del hackathon: reglas, rúbrica, ecosistema Arbitrum |
 | [`entregables/`](./entregables) | Pitch deck en PDF |
 
