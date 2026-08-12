@@ -76,7 +76,7 @@ export const Footer = () => {
         <div className="flex gap-2">
           {/* Fork me button */}
           <a
-            href="https://github.com/Arb-Stylus/scaffold-stylus"
+            href="https://github.com/nadevrix/benevria"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-2xl border"
