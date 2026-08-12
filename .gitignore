@@ -8,3 +8,4 @@ target/
 .yarn/cache/
 .yarn/install-state.gz
 .playwright-mcp/
+capturas/

@@ -37,8 +37,10 @@ function FilaTema({ id }: { id: number }) {
   return (
     <li className="flex items-start justify-between gap-4 rounded-xl border border-base-300 bg-base-100 p-4">
       <div className="min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-xs opacity-50">#{id}</span>
+        <div className="flex items-start gap-2">
+          {/* shrink-0 + nowrap: sin esto el "#4" se parte en dos líneas cuando el
+              título es largo y el espacio se aprieta. */}
+          <span className="shrink-0 whitespace-nowrap pt-0.5 font-mono text-xs opacity-50">#{id}</span>
           <span className="font-medium">{titulo}</span>
         </div>
         <div className="mt-1 flex gap-3 text-xs opacity-70">

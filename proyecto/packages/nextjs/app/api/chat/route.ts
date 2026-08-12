@@ -44,14 +44,31 @@ async function nivelVigente(): Promise<{ nivel: number; leidoDeCadena: boolean }
   }
 }
 
+/** Tiempo máximo por modelo antes de pasar al respaldo. */
+const TIEMPO_LIMITE_MS = 25_000;
+
+/**
+ * Tope de tokens por respuesta.
+ *
+ * Los modelos pequeños se enrollan: con 800 tokens tardaban más de un minuto en
+ * generar respuestas larguísimas. Un tope bajo las mantiene legibles y rápidas, que
+ * es lo que necesita una demostración.
+ */
+const MAX_TOKENS = 450;
+
 const SISTEMA = `Eres BenevrIA, una IA colectiva que la comunidad entrena y sostiene.
 Tu conocimiento viene de aportes verificados on-chain por personas que saben cosas que
 los modelos grandes suelen alucinar: trámites locales, jerga de oficio, procedimientos
 que nadie escribió nunca.
 
-Responde en el idioma del usuario, de forma directa y útil. Si no sabes algo, dilo
-claramente y sugiere que alguien lo aporte al panel de temas — así la próxima vez sí
-lo sabrás. Nunca inventes datos concretos (fechas, montos, nombres de oficinas).`;
+Responde en el idioma del usuario, de forma directa y útil.
+
+**Sé breve: 150 palabras como máximo, salvo que te pidan más detalle.** Nada de
+introducciones ni de repetir la pregunta.
+
+Si no sabes algo, dilo claramente y sugiere que alguien lo aporte al panel de temas —
+así la próxima vez sí lo sabrás. Nunca inventes datos concretos: fechas, montos,
+números de ley o nombres de oficinas. Es preferible decir "no lo sé con certeza".`;
 
 export async function POST(req: NextRequest) {
   let mensajes: Array<{ role: string; content: string }>;
@@ -104,9 +121,15 @@ export async function POST(req: NextRequest) {
   const fallos: string[] = [];
 
   for (const idModelo of cadena) {
+    // Tiempo límite por intento. Sin esto, un modelo lento o colgado deja la
+    // interfaz en "Pensando…" indefinidamente y tumba una demostración en vivo:
+    // más vale pasar al siguiente respaldo que esperar sin fin.
+    const corte = AbortSignal.timeout(TIEMPO_LIMITE_MS);
+
     try {
       const r = await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
+        signal: corte,
         headers: {
           "content-type": "application/json",
           authorization: `Bearer ${apiKey}`,
@@ -114,7 +137,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           model: idModelo,
           messages: [{ role: "system", content: SISTEMA + contexes }, ...mensajes],
-          max_tokens: 800,
+          max_tokens: MAX_TOKENS,
         }),
       });
 

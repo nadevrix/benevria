@@ -10,6 +10,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { Markdown } from "~~/components/Markdown";
 import { useEstadoBenevria } from "~~/lib/useBenevria";
 
 type Mensaje = { role: "user" | "assistant"; content: string };
@@ -84,11 +85,13 @@ export default function Chat() {
         {mensajes.map((m, i) => (
           <div key={i} className={m.role === "user" ? "text-right" : ""}>
             <div
-              className={`inline-block max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2 text-sm ${
-                m.role === "user" ? "bg-primary text-primary-content" : "bg-base-200"
+              className={`inline-block max-w-[85%] rounded-2xl px-4 py-2 text-left text-sm ${
+                m.role === "user" ? "whitespace-pre-wrap bg-primary text-primary-content" : "bg-base-200"
               }`}
             >
-              {m.content}
+              {/* Lo que escribe la persona se muestra tal cual; la respuesta del
+                  modelo viene en Markdown y hay que interpretarla. */}
+              {m.role === "user" ? m.content : <Markdown texto={m.content} />}
             </div>
           </div>
         ))}
