@@ -8573,12 +8573,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"benevria@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "benevria@workspace:."
-  languageName: unknown
-  linkType: soft
-
 "b4a@npm:^1.6.4":
   version: 1.8.1
   resolution: "b4a@npm:1.8.1"
@@ -8725,6 +8719,12 @@ __metadata:
   checksum: a3b5ffbedb070f89636aaaa5f639b2b275cab3486f8e216902bd60529e51047b42c732059dc94869581e2f585937a76d183a09fc519b1ce909155c137a502953
   languageName: node
   linkType: hard
+
+"benevria@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "benevria@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "bgipfs@npm:^0.0.12":
   version: 0.0.12
