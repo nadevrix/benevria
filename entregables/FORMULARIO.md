@@ -278,7 +278,7 @@ https://github.com/nadevrix/benevria/blob/main/proyecto/README.md#arquitectura
 | Campo | Valor | Estado |
 |---|---|---|
 | **Video de presentación (pitch)** | *pendiente de grabar* | ⬜ |
-| **Demo funcional** | *URL de Render, pendiente* | ⬜ |
+| **Demo funcional** | `https://benevria.onrender.com` | ✅ |
 | **Recorrido en video de la demo** | *pendiente de grabar* | ⬜ |
 | **Pitch Deck** | `entregables/BenevrIA-presentacion.pdf` (2,24 MB) | ✅ |
 

@@ -7,6 +7,12 @@
 
 ---
 
+## En vivo
+
+| | |
+|---|---|
+| **Aplicación** | https://benevria.onrender.com |
+
 ## Contrato desplegado
 
 | Contrato | Red | Dirección | Explorador |
