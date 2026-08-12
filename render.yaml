@@ -1,0 +1,44 @@
+# Despliegue de BenevrIA en Render.
+#
+# Con este archivo en la raíz del repositorio, Render lo detecta solo:
+# New → Blueprint → elegir este repo. No hace falta configurar nada a mano
+# salvo la clave del proveedor de inferencia, que es secreta.
+
+services:
+  - type: web
+    name: benevria
+    runtime: node
+    plan: free
+    region: oregon
+
+    # El monorepo usa yarn 3 con el binario incluido en el repo.
+    # `enableScripts: false` del .yarnrc.yml sigue vigente aquí: es la defensa
+    # contra los ataques de cadena de suministro de npm descritos en
+    # bitacora/03-seguridad.md.
+    buildCommand: cd proyecto && node .yarn/releases/yarn-3.2.3.cjs install --immutable && node .yarn/releases/yarn-3.2.3.cjs next:build
+    startCommand: cd proyecto/packages/nextjs && node ../../.yarn/releases/yarn-3.2.3.cjs exec next start -p $PORT
+
+    healthCheckPath: /
+
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+
+      # Dirección del contrato desplegado en Arbitrum Sepolia.
+      - key: NEXT_PUBLIC_BENEVRIA_ADDRESS
+        value: "0xdf48b19ad2c77050fe08fef0dde577f4e5066e6d"
+
+      - key: NEXT_PUBLIC_RPC_URL
+        value: "https://sepolia-rollup.arbitrum.io/rpc"
+
+      # Modo de pago de la inferencia: `apikey` hoy, `x402` cuando el proveedor
+      # acepte pago por request en USDC.
+      - key: BENEVRIA_MODO_PAGO
+        value: "apikey"
+
+      - key: INFERENCIA_BASE_URL
+        value: "https://openrouter.ai/api/v1"
+
+      # Secreto: se carga a mano en el panel de Render, nunca en el repositorio.
+      - key: OPENROUTER_API_KEY
+        sync: false

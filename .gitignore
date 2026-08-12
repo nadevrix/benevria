@@ -9,3 +9,4 @@ target/
 .yarn/install-state.gz
 .playwright-mcp/
 capturas/
+.playwright-mcp/
